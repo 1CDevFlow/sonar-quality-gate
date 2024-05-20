@@ -77,12 +77,13 @@ export class Sonar {
       componentKeys: this.projectKey,
       // sinceLeakPeriod: true, // get issues of new code on sonar
       p: page,
-      ps: PAGE_SIZE,
-      createdAfter: fromTime,
+      ps: PAGE_SIZE
     };
 
     if (this.qualityGate.branchPluginEnabled) {
       parameters.pullRequest = this.qualityGate.branchPluginMergeId;
+    } else {
+      parameters.createdAfter = fromTime;
     }
 
     const response = await this.http.get<entity.IssueList>(SONAR_ISSUE_API, parameters);

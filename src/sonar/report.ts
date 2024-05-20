@@ -140,7 +140,7 @@ export class SonarReport {
     const report = `# SonarQube Code Analytics
 ## Quality Gate ${status}
 
-${this.icon(status)}
+[${this.icon(status)}](${this.getIssueURL("VULNERABILITY")})
 
 ## Additional information
 *The following metrics might not affect the Quality Gate status but improving them will improve your project code quality.*
