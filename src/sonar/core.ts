@@ -77,7 +77,9 @@ export class Sonar {
       componentKeys: this.projectKey,
       // sinceLeakPeriod: true, // get issues of new code on sonar
       p: page,
-      ps: PAGE_SIZE
+      ps: PAGE_SIZE,
+      inNewCodePeriod: true,
+      resolved: false
     };
 
     if (this.qualityGate.branchPluginEnabled) {

@@ -64,4 +64,6 @@ export interface SonarApiRequestParameters {
   pullRequest?: number;
   p?: number;
   ps?: number;
+  inNewCodePeriod?: boolean
+  resolved?: boolean
 }
