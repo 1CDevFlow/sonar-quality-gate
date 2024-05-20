@@ -1,6 +1,7 @@
 import { Git, GitMerge, GitReviewParam } from "../git";
 import { Axios } from "../http";
 import { Comment } from "./entity";
+import { Log } from "../utils";
 
 export class Github implements Git {
   host: string;
@@ -38,6 +39,7 @@ export class GithubMerge extends Github implements GitMerge {
   }
 
   async getQualityDiscussion(headers?: any): Promise<Comment | null> {
+    Log.debug('getQualityDiscussion', headers)
     const api = `/repos/${this.projectID}/issues/${this.mergeRequestID}/comments`;
     const response = await this.http.get<Comment[]>(api, {}, headers);
     const pattern = /^# SonarQube Code Analytics/g;
@@ -52,6 +54,7 @@ export class GithubMerge extends Github implements GitMerge {
   }
 
   async createComment(comment: string, headers?: any): Promise<Comment> {
+    Log.debug('createComment', comment)
     const api = `/repos/${this.projectID}/issues/${this.mergeRequestID}/comments`;
     const response = await this.http.post(api, {
       body: comment
@@ -60,6 +63,7 @@ export class GithubMerge extends Github implements GitMerge {
   }
 
   async updateComment(noteID: number, comment: string, headers?: any): Promise<Comment> {
+    Log.debug('updateComment', noteID)
     const api = `/repos/${this.projectID}/issues/comments/${noteID}`;
     const response = await this.http.patch(api, {
       body: comment
@@ -68,6 +72,7 @@ export class GithubMerge extends Github implements GitMerge {
   }
 
   async saveQualityDiscussion(comment: string, headers?: any): Promise<Comment> {
+    Log.debug('saveQualityDiscussion', comment)
     const discussion = await this.getQualityDiscussion();
     let data = null;
     if (discussion) {
@@ -81,14 +86,17 @@ export class GithubMerge extends Github implements GitMerge {
   async createReviewComments(
     params: GitReviewParam[]
   ): Promise<Comment | null> {
+    Log.debug('createReviewComments', params)
     const api = `/repos/${this.projectID}/pulls/${this.mergeRequestID}/reviews`;
     const comments: any = [];
     for (const i in params) {
-      comments.push({
+      const comment = {
         path: params[i].path,
         line: params[i].line,
         body: params[i].comment
-      });
+      }
+      comments.push(comment);
+      Log.debug('createReviewComments comment #' + i, comment)
     }
     if (comments.length == 0){
       return null;
