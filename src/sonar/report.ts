@@ -72,7 +72,14 @@ export class SonarReport {
   }
 
   private getIssueURL(type: string) {
-    const url = this.host + `/project/issues?id=${this.projectKey}&resolved=false&sinceLeakPeriod=true&types=${type}`;
+    return this.getIssuesURL(type);
+  }
+
+  private getIssuesURL(type: string|undefined = undefined) {
+    let url = this.host + `/project/issues?id=${this.projectKey}&resolved=false&sinceLeakPeriod=true`;
+    if(type!==undefined){
+      url = `${url}&types=${type}`
+    }
     return this.appendPullRequestIdIfBranchPluginEnabled(url);
   }
 
@@ -140,7 +147,7 @@ export class SonarReport {
     const report = `# SonarQube Code Analytics
 ## Quality Gate ${status}
 
-[${this.icon(status)}](${this.getIssueURL("VULNERABILITY")})
+[${this.icon(status)}](${this.getIssuesURL()})
 
 ## Additional information
 *The following metrics might not affect the Quality Gate status but improving them will improve your project code quality.*
