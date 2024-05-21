@@ -174,9 +174,11 @@ export class Cli {
 
   private getMergeID(argv: Arguments): string {
     if (argv.git.merge_id) {
+      Log.debug('getMergeID', `argv.git.merge_id=${argv.git.merge_id}`)
       return argv.git.merge_id;
     }
     if (process.env.CI_MERGE_REQUEST_IID) {
+      Log.debug('getMergeID', `process.env.CI_MERGE_REQUEST_IID=${process.env.CI_MERGE_REQUEST_IID}`)
       return process.env.CI_MERGE_REQUEST_IID
     }
     if (process.env.GITHUB_EVENT_PATH) {
@@ -202,6 +204,7 @@ export class Cli {
     const ev = JSON.parse(
       fs.readFileSync(process.env.GITHUB_EVENT_PATH, 'utf8')
     )
-    return ev.pull_request.number;
+    Log.debug('getGithubPullNumber', ev)
+    return ev.number ?? ev.pull_request.number;
   }
 }

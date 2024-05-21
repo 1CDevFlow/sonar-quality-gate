@@ -167,8 +167,6 @@ ${this.duplicatedIcon(param.duplicatedValue)} ${duplicatedText}`;
     return report;
   }
 
-
-
   report(
     projectStatus: ProjectStatus,
     bugCount: number,
