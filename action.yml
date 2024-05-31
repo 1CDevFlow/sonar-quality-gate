@@ -1,7 +1,7 @@
 name: 'sonar-quality-gate'
 description: 'This plugin will be intergate to CI/CD, get quality code of sonarqube and push report to merge request when has change.'
 branding:
-  icon: 'award'  
+  icon: 'award'
   color: 'green'
 inputs:
   login: 
@@ -10,6 +10,9 @@ inputs:
   skipScanner: 
     description: 'skip scanner'
     required: false
+  sonarBranchPlugin: 
+    description: "Enable SonarQube Community-Branch-Plugin support. Please make sure, that you've properly installed the plugin in SonarQube: https://github.com/mc1arke/sonarqube-community-branch-plugin"
+    required: false
 outputs:
   time: # id of output
     description: 'The time we greeted you'
@@ -17,5 +20,6 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
+    - -b ${{ inputs.sonarBranchPlugin }}
     - -D sonar.login=${{ inputs.login }}
     - --skip-scanner=${{ inputs.skipScanner }}

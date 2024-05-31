@@ -46,7 +46,7 @@ export function createOptions() {
       alias: "b",
       group: "Global Options:",
       desc: "Enable SonarQube Community-Branch-Plugin support. Please make sure, that you've properly installed the plugin in SonarQube: https://github.com/mc1arke/sonarqube-community-branch-plugin",
-      default: true
+      default: false
     })
     .option("define", {
       alias: "D",
